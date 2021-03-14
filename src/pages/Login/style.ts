@@ -47,9 +47,10 @@ export const TypographySaudation = styled(Title)`
 export const ContentLogin = styled(Content)`
   background: #fff;
   opacity: 0.8;
-  height: 100vh;
+  height: 93vh;
   border: 1px solid #d8dade;
   padding: 54px;
+  padding-bottom: 0;
 `;
 
 export const FormStyled = styled(Form)`

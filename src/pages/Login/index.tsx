@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import api from "../../services/api";
+
+import { AuthCreateContext, AuthProvider } from "../../Context/AuthContext";
 
 import TractianLogo from "../../assets/logoTractian.webp";
 
@@ -22,27 +24,16 @@ const layoutForm = {
   wrapperCol: { span: 24 },
 };
 
-interface Users {
-  id: Number;
-  email: String;
-  name: String;
-  unitId: Number;
-  companyId: Number;
-}
-
 function Login() {
-  const [users, setUsers] = useState([]);
-  
-  useEffect(() => {
-    (async () => {
-      const { data } = await api.get("users");
-      setUsers(data);
-    })();
-  }, []);
+  const {dataUser, getUsers,} = useContext(AuthCreateContext);
+  const [userEmail, setUserEmail] = useState("");
 
-  function handleClickSubmit(e:EventM) {
-
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    console.log(e);
   }
+
+  console.log(getUsers())
 
   return (
     <Container>
@@ -58,9 +49,9 @@ function Login() {
         </MainCols>
         <MainCols offset={2} span={10}>
           <ContentLogin>
-            <FormStyled requiredMark={false} {...layoutForm} onSubmit={}>
+            <FormStyled requiredMark={false} {...layoutForm} onFinish={handleSubmit}>
               <FormStyled.Item label="E-mail" name="email" rules={[{ required: true, message: "Por favor, digite seu e-mail" }]}>
-                <InputStyled />
+                <InputStyled onChange={(e: any) => setUserEmail(e.target.value)} />
               </FormStyled.Item>
               <FormStyled.Item>
                 <ButtonStyled htmlType="submit">Entrar</ButtonStyled>
