@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import api from "../../services/api";
+import React, { useContext } from "react";
 
-import { AuthCreateContext, AuthProvider } from "../../Context/AuthContext";
+import { AuthCreateContext } from "../../Context/AuthContext";
 
 import TractianLogo from "../../assets/logoTractian.webp";
 
@@ -25,15 +24,8 @@ const layoutForm = {
 };
 
 function Login() {
-  const {dataUser, getUsers,} = useContext(AuthCreateContext);
-  const [userEmail, setUserEmail] = useState("");
-
-  function handleSubmit(e: any) {
-    e.preventDefault();
-    console.log(e);
-  }
-
-  console.log(getUsers())
+  const { handleLogin, handleInputChange, authenticated } = useContext(AuthCreateContext);
+  localStorage.setItem("authentication", String(authenticated));
 
   return (
     <Container>
@@ -49,9 +41,9 @@ function Login() {
         </MainCols>
         <MainCols offset={2} span={10}>
           <ContentLogin>
-            <FormStyled requiredMark={false} {...layoutForm} onFinish={handleSubmit}>
+            <FormStyled requiredMark={false} {...layoutForm} onFinish={handleLogin}>
               <FormStyled.Item label="E-mail" name="email" rules={[{ required: true, message: "Por favor, digite seu e-mail" }]}>
-                <InputStyled onChange={(e: any) => setUserEmail(e.target.value)} />
+                <InputStyled onChange={handleInputChange} />
               </FormStyled.Item>
               <FormStyled.Item>
                 <ButtonStyled htmlType="submit">Entrar</ButtonStyled>

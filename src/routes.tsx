@@ -1,16 +1,26 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+
+import { AuthCreateContext } from "./Context/AuthContext";
 
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+
+function CustomRoutes({ isPrivate, ...rest }: any) {
+  if (isPrivate && localStorage.getItem("authentication") === "false") {
+    return <Redirect to="/" />;
+  }
+
+  return <Route {...rest} />;
+}
 
 export default function Routes() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/home" component={Home} />
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <CustomRoutes exact path="/" component={Login} />
+      <CustomRoutes isPrivate path="/home" component={Home} />
+      <CustomRoutes isPrivate path="/profile" component={Profile} />
+    </Switch>
   );
 }
