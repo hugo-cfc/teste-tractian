@@ -5,7 +5,12 @@ import { AuthCreateContext } from "../../Context/AuthContext";
 import {} from "antd";
 import {} from "@ant-design/icons";
 
-import { Container, ContainerInside, StyleTable, StyleColumn, StyleColumnGroup } from "./style";
+import { AiTwotoneAlert, AiOutlinePoweroff } from "react-icons/ai";
+import { BsLightningFill } from "react-icons/bs";
+
+import CardAsset from "./components/CardAsset";
+
+import { Container, ContainerInside, BoxCards } from "./style";
 
 import Header from "../../components/Header";
 
@@ -19,23 +24,46 @@ function Home() {
     setLoading(false);
   }, []);
 
+  function iconSelector(status: string | undefined) {
+    switch (status) {
+      case "inOperation":
+        return (
+          <>
+            <BsLightningFill style={{ color: "green" }} /> Em Operação
+          </>
+        );
+      case "inDowntime":
+        return (
+          <>
+            <AiOutlinePoweroff style={{ color: "red" }} /> Em Parada
+          </>
+        );
+      case "inAlert":
+        return (
+          <>
+            <AiTwotoneAlert style={{ color: "orange" }} /> Em alerta
+          </>
+        );
+      default:
+        return "Desconhecido";
+    }
+  }
+
   return (
     <Container>
       <Header />
       <ContainerInside>
-        {loading ? (
-          "Carregando"
-        ) : (
-          <StyleTable dataSource={dataTable} pagination={false}>
-            <StyleColumn title="Name" dataIndex="name" key="name" />
-            <StyleColumn title="Sensor" dataIndex="sensor" key="sensor" />
-            <StyleColumn title="Empresa" dataIndex="company" key="company" />
-            <StyleColumn title="Unidade" dataIndex="unity" key="unity" />
-            <StyleColumn title="Status" dataIndex="status" key="status" />
-            <StyleColumn title="Healthscore" dataIndex="healthscore" key="healthscore" />
-            <StyleColumn title="Model" dataIndex="model" key="model" />
-          </StyleTable>
-        )}
+        {assetsUnit2.map((item: Assets) => {
+          return (
+            <>
+              <BoxCards span={5}>
+                <CardAsset titleMeta={item.name} descriptionMeta="Thisssssss" cover={<img alt={item.name} src={item.image} style={{ height: "230px" }} />}>
+                  Status: {iconSelector(item.status)}
+                </CardAsset>
+              </BoxCards>
+            </>
+          );
+        })}
       </ContainerInside>
     </Container>
   );

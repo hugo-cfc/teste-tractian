@@ -9,7 +9,7 @@ import { DownOutlined } from "@ant-design/icons";
 
 import TractianLogo from "../../assets/logoTractian.webp";
 
-import { HeaderStyled, HeaderRow, HeaderCol, ImgLogo, AvatarProfile, AvatarName } from "./style";
+import { HeaderStyled, HeaderRow, HeaderCol, ImgLogo, AvatarProfile, } from "./style";
 
 import DropdownProfile from "../DropdownProfile";
 

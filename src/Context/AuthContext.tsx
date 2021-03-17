@@ -123,7 +123,20 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthCreateContext.Provider
-      value={{ handleLogin, handleLogout, handleInputChange, currentUser, authenticated, companies, units, avatarName, assets, assetsUnit1, assetsUnit2, dataTable }}
+      value={{
+        handleLogin,
+        handleLogout,
+        handleInputChange,
+        currentUser,
+        authenticated,
+        companies,
+        units,
+        avatarName,
+        assets,
+        assetsUnit1,
+        assetsUnit2,
+        dataTable,
+      }}
     >
       {children}
     </AuthCreateContext.Provider>

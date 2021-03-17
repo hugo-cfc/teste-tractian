@@ -10,15 +10,13 @@ export const Container = styled.main`
   height: 100vh;
 `;
 
-export const ContainerInside = styled(Content)`
+export const ContainerInside = styled(Row)`
   margin: 24px;
+  padding: 24px;
   border: 1px solid #dddfe0;
+  justify-content: center;
 `;
 
-export const StyleTable = styled(Table)`
-  color: red;
+export const BoxCards = styled(Col)`
+
 `;
-
-export const StyleColumn = styled(Column)``
-
-export const StyleColumnGroup = styled(ColumnGroup)``
