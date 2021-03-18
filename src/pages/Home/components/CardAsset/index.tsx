@@ -5,15 +5,14 @@ import { CardProps } from "antd";
 import { StyledCard, StyledMeta } from "./style";
 
 interface OnlyProps extends CardProps {
-  titleMeta: string | undefined;
-  descriptionMeta: string;
+  titleMeta?: string | undefined;
 }
 
-export default function CardAsset({ ...props }: OnlyProps) {
+export default function CardAsset({ titleMeta, ...props }: OnlyProps) {
   return (
     <>
       <StyledCard {...props} hoverable>
-        <StyledMeta title={props.titleMeta} />
+        <StyledMeta title={titleMeta} />
         {props.children}
       </StyledCard>
     </>

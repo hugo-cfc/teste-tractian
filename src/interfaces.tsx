@@ -57,4 +57,5 @@ export interface ContextProps extends DataUsers {
   assetsUnit1: any;
   assetsUnit2: any;
   dataTable: any;
+  assetsUnitCurrent: any;
 }
