@@ -9,7 +9,6 @@ export const StyledCard = styled(Card)`
   margin-bottom: 20px;
 `;
 
-export const StyledMeta = styled(Meta)``;
-
-
-
+export const StyledMeta = styled(Meta)`
+  text-align: center;
+`;

@@ -29,7 +29,7 @@ export default function DropdownProfile(props: Props) {
           </StyledRow>
           <StyledDivider />
         </MenuContainer.Item>
-        <MenuContainer.Item style={{ width: "100%", height: "100%" }} onClick={(e: any) => history.push("/profile")}>
+        <MenuContainer.Item style={{ width: "100%", height: "100%" }} onClick={(e: any) => history.push("/companies")}>
           <StyledRow>
             <StyledCol>
               <BankOutlined />
@@ -37,7 +37,7 @@ export default function DropdownProfile(props: Props) {
             </StyledCol>
           </StyledRow>
         </MenuContainer.Item>
-        <MenuContainer.Item style={{ width: "100%", height: "100%" }} onClick={(e: any) => history.push("/profile")}>
+        <MenuContainer.Item style={{ width: "100%", height: "100%" }} onClick={(e: any) => history.push(`/units/${currentUser?.unitId}`)}>
           <StyledRow>
             <StyledCol>
               <DeploymentUnitOutlined />

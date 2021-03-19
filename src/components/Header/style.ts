@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
-import { NavLink } from "react-router-dom";
+import { Row, Col, Layout, Typography, Avatar } from "antd";
 
-import { Row, Col, Layout, Typography, Avatar, Dropdown } from "antd";
-
-const { Header, Content } = Layout;
-const { Title, Text } = Typography;
+const { Header } = Layout;
+const { Text } = Typography;
 
 export const HeaderStyled = styled(Header)`
   background: #001529;

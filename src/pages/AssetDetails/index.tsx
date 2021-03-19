@@ -1,62 +1,148 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
 
 import { AuthCreateContext } from "../../Context/AuthContext";
 
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
+import api from "../../services/api";
+
+import { Assets } from "../../interfaces";
+
+import { AiTwotoneAlert, AiOutlinePoweroff } from "react-icons/ai";
+import { BsLightningFill } from "react-icons/bs";
 
 import Header from "../../components/Header";
 
-import { H1 } from "./style";
+import { Container, ContainerInside, Title, StyledColumn, StyledRow, StyledImg, StyledTable, StyledTr, StyledTh, StyledTd } from "./style";
 
 interface ParamTypes {
   id: string;
 }
 
-const config = {
-  chart: {
-    type: "pie",
-  },
-  title: {
-    text: "My chart",
-  },
-  series: [
-    {
-      name: "Brands",
-      colorByPoint: true,
-      data: [
-        {
-          name: "Em operação",
-          y: 61.41,
-          sliced: true,
-          selected: true,
-        },
-  
-        {
-          name: "Em parada",
-          y: 10,
-        },
-  
-        {
-          name: "Em alerta",
-          y: 10,
-        },
-      ],
-    },
-  ],
-};
-
 function AssetDetails() {
-  const {} = useContext(AuthCreateContext);
+  const { currentUser } = useContext(AuthCreateContext);
   const { id } = useParams<ParamTypes>();
+  const [currentAsset, setCurrentAsset] = useState<Assets>({});
+  currentAsset.unityName = currentUser?.unityName;
+  currentAsset.companyName = currentUser?.companyName;
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await api.get(`assets/${id}`);
+
+      setCurrentAsset(data);
+    })();
+  }, [id]);
+
+  console.log(currentAsset.sensor);
+
+  function iconSelector(status: string | undefined) {
+    switch (status) {
+      case "inOperation":
+        return (
+          <>
+            <BsLightningFill style={{ color: "green" }} /> Em Operação
+          </>
+        );
+      case "inDowntime":
+        return (
+          <>
+            <AiOutlinePoweroff style={{ color: "red" }} /> Em Parada
+          </>
+        );
+      case "inAlert":
+        return (
+          <>
+            <AiTwotoneAlert style={{ color: "orange" }} /> Em alerta
+          </>
+        );
+      default:
+        return "Desconhecido";
+    }
+  }
+
+  const regexData = /(^(\d{4})-(\d{2})-(\d{2}))T(\d{2}:\d{2}:\d{2})(.[\da-zA-Z]*)/gm;
 
   return (
     <>
-      <Header />
-      <H1>Olá mundo! Page Assets!! {id}</H1>
-      <HighchartsReact options={config}></HighchartsReact>
+      <Container>
+        <Header />
+        <ContainerInside>
+          <StyledRow>
+            <StyledColumn span={24}>
+              <Title>{currentAsset.name}</Title>
+            </StyledColumn>
+          </StyledRow>
+          <StyledRow>
+            <StyledColumn>
+              <StyledImg src={currentAsset.image} />
+            </StyledColumn>
+            <StyledColumn offset={1} span={4}>
+              <Title>Detalhes</Title>
+              <StyledTable>
+                <StyledTr>
+                  <StyledTh>Empresa:</StyledTh>
+                  <StyledTd>{currentAsset.companyName}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Unidade:</StyledTh>
+                  <StyledTd>{currentAsset.unityName}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Sensor:</StyledTh>
+                  <StyledTd>{currentAsset.sensor}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Modelo:</StyledTh>
+                  <StyledTd>{currentAsset.model}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Status:</StyledTh>
+                  <StyledTd>{iconSelector(currentAsset?.status)}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Saúde:</StyledTh>
+                  <StyledTd>{currentAsset.healthscore}%</StyledTd>
+                </StyledTr>
+              </StyledTable>
+            </StyledColumn>
+            <StyledColumn offset={1} span={4}>
+              <Title>Especificações</Title>
+              <StyledTable>
+                <StyledTr>
+                  <StyledTh>Temperatura Máxima:</StyledTh>
+                  <StyledTd>{currentAsset.specification?.maxTemp}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Potência:</StyledTh>
+                  <StyledTd>{currentAsset.specification?.power}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>RPM:</StyledTh>
+                  <StyledTd>{currentAsset.specification?.rpm}</StyledTd>
+                </StyledTr>
+              </StyledTable>
+            </StyledColumn>
+            <StyledColumn offset={1} span={4}>
+              <Title>Métricas</Title>
+              <StyledTable>
+                <StyledTr>
+                  <StyledTh>Total de coletas:</StyledTh>
+                  <StyledTd>{currentAsset.metrics?.totalCollectsUptime}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Total de horas de coletas:</StyledTh>
+                  <StyledTd>{currentAsset.metrics?.totalUptime}</StyledTd>
+                </StyledTr>
+                <StyledTr>
+                  <StyledTh>Última coleta:</StyledTh>
+                  <StyledTd>{currentAsset.metrics?.lastUptimeAt?.replace(regexData, "$4/$3/$2")}</StyledTd>
+                </StyledTr>
+              </StyledTable>
+            </StyledColumn>
+          </StyledRow>
+        </ContainerInside>
+      </Container>
     </>
   );
 }

@@ -6,7 +6,6 @@ import history from "../../history";
 
 import { Assets } from "../../interfaces";
 
-import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 import { AiTwotoneAlert, AiOutlinePoweroff } from "react-icons/ai";
@@ -17,47 +16,73 @@ import CardAsset from "./components/CardAsset";
 
 import { Container, ContainerInside, BoxCards, Saudation, ContainerCards } from "./style";
 
-const config = {
-  chart: {
-    type: "pie",
-  },
-  title: {
-    text: "Status Geral",
-  },
-  series: [
-    {
-      name: "Brands",
-      colorByPoint: true,
-      data: [
-        {
-          name: "Em operação",
-          y: 2,
-          sliced: true,
-          selected: true,
-        },
-
-        {
-          name: "Em parada",
-          y: 0,
-        },
-
-        {
-          name: "Em alerta",
-          y: 2,
-        },
-      ],
-    },
-  ],
-};
-
 function Home() {
-  const { assetsUnit1, assetsUnit2, dataTable, currentUser } = useContext(AuthCreateContext);
-  const [loading, setLoading] = useState(true);
+  const { assetsUnit1, assetsUnit2, currentUser } = useContext(AuthCreateContext);
   const assetsUnitCurrent = currentUser?.unitId === 1 ? assetsUnit1 : assetsUnit2;
+  const [inOperation, setInOperation] = useState<number>(0);
+  const [inAlert, setInAlert] = useState<number>(0);
+  const [inDowntime, setInDowntime] = useState<number>(0);
+  const [unknown, setUnknown] = useState<number>(0);
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    assetsUnitCurrent.map((item: Assets) => {
+      if (item.status === "inAlert") {
+          return setInAlert(prevState => prevState + 1);
+      }else if (item.status === "inOperation") {
+        return setInOperation(prevState => prevState + 1);
+      }else if (item.status === "inDowntime") {
+        return setInDowntime(prevState => prevState + 1);
+      }else {
+        return setUnknown(prevState => prevState + 1);
+      }
+      
+    });
+  }, [assetsUnitCurrent]);
+
+  const config = {
+    chart: {
+      type: "pie",
+    },
+    title: {
+      text: "Status Geral",
+    },
+    series: [
+      {
+        name: "Máquinas",
+        colorByPoint: true,
+        data: [
+          {
+            name: "Em operação",
+            y: inOperation,
+            sliced: true,
+            selected: true,
+            color: 'green',
+          },
+
+          {
+            name: "Em Alerta",
+            y: inAlert,
+            sliced: true,
+            color: 'orange',
+          },
+
+          {
+            name: "Em Parada",
+            y: inDowntime,
+            sliced: true,
+            color: 'red',
+          },
+
+          {
+            name: "Desconhecido",
+            y: unknown,
+            sliced: true,
+            color: 'black',
+          },
+        ],
+      },
+    ],
+  };
 
   function iconSelector(status: string | undefined) {
     switch (status) {

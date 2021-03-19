@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-import { Row, Col, } from "antd";
+import { Row, Col, Divider } from "antd";
+
+export const CompanyName = styled.h1`
+  text-align: center;
+`;
 
 export const Container = styled.main`
   height: 100vh;
@@ -25,4 +29,10 @@ export const ContainerCards = styled(Row)`
   background: #fff;
 `;
 
-export const BoxCards = styled(Col)``;
+export const StyledCol = styled(Col)``;
+
+export const StyleDivider = styled(Divider)``;
+
+export const StyledRow = styled(Row)`
+  width: 100%;
+`;

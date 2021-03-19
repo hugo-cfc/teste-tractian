@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import AssetDetails from "./pages/AssetDetails";
 import Profile from "./pages/Profile";
+import CompanyPage from "./pages/CompanyPage";
+import UnityPage from "./pages/UnityPage";
 
 function CustomRoutes({ isPrivate, ...rest }: any) {
   if (isPrivate && localStorage.getItem("authentication") === "false") {
@@ -21,6 +23,8 @@ export default function Routes() {
       <CustomRoutes isPrivate path="/home" component={Home} />
       <CustomRoutes isPrivate path="/asset/:id" component={AssetDetails} />
       <CustomRoutes isPrivate path="/profile" component={Profile} />
+      <CustomRoutes isPrivate path="/companies" component={CompanyPage} />
+      <CustomRoutes isPrivate path="/units/:id" component={UnityPage} />
     </Switch>
   );
 }

@@ -9,14 +9,15 @@ const AuthCreateContext = createContext<Partial<ContextProps>>({});
 
 const AuthProvider: React.FC = ({ children }) => {
   const [dataUsers, setdataUsers] = useState([]);
-  const [companies, setCompanies] = useState({});
-  const [units, setUnits] = useState<Units>({});
+  const [companies, setCompanies] = useState([]);
+  const [units, setUnits] = useState([]);
   const [currentUser, setCurrentUser] = useState<DataUsers>({});
   const [authenticated, setAuthenticated] = useState(false);
   const [assets, setAssets] = useState([]);
   const assetsUnit1 = [] as any;
   const assetsUnit2 = [] as any;
-  const dataTable = [] as any;
+  const usersUnit1 = [] as any;
+  const usersUnit2 = [] as any;
   const avatarName = `${currentUser?.name?.split(" ")[0].charAt(0)}${currentUser?.name?.split(" ")[1].charAt(0)}`;
 
   useEffect(() => {
@@ -56,18 +57,14 @@ const AuthProvider: React.FC = ({ children }) => {
     });
   }
 
-  function getAssetsTable() {
-    assetsUnit1.map((item: Assets) => {
-      dataTable.push({
-        key: item.id,
-        name: item.name,
-        sensor: item.sensor,
-        company: item.companyId,
-        unity: item.unitId,
-        status: item.status,
-        healthscore: item.healthscore,
-        model: item.model,
-      });
+  function getUsers() {
+    dataUsers.map((item: Assets) => {
+      if (item.unitId === 1) {
+        usersUnit1.push(item);
+      }
+      if (item.unitId === 2) {
+        usersUnit2.push(item);
+      }
     });
   }
 
@@ -100,7 +97,7 @@ const AuthProvider: React.FC = ({ children }) => {
     })();
 
     getAssets();
-    getAssetsTable();
+    getUsers();
   };
 
   const redirector = (route: string) => history.push(route);
@@ -135,7 +132,8 @@ const AuthProvider: React.FC = ({ children }) => {
         assets,
         assetsUnit1,
         assetsUnit2,
-        dataTable,
+        usersUnit1,
+        usersUnit2,
       }}
     >
       {children}

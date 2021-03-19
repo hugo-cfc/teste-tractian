@@ -9,29 +9,29 @@ export interface DataUsers {
 }
 
 export interface Companies {
-  id?: number;
-  name?: string;
+  id: number;
+  name: string;
 }
 
 export interface Units extends Companies {
-  companyId?: number;
+  companyId: number;
 }
 
 export interface MetricsAssets {
-  totalCollectsUptime: number;
-  totalUptime: number;
-  lastUptimeAt: string;
+  totalCollectsUptime?: number;
+  totalUptime?: number;
+  lastUptimeAt?: string;
 }
 
 export interface EspecificationsAssets {
-  maxTemp: number;
-  rpm: number;
-  power: number;
+  maxTemp?: number;
+  power?: number;
+  rpm?: number;
 }
 
 export interface Assets {
   id?: number;
-  sensor?: string[];
+  sensor?: any[];
   status?: string;
   healthscore?: number;
   model?: string;
@@ -41,6 +41,8 @@ export interface Assets {
   specification?: EspecificationsAssets;
   unitId?: number;
   companyId?: number;
+  unityName?: string;
+  companyName?: string;
 }
 
 export interface ContextProps extends DataUsers {
@@ -50,12 +52,13 @@ export interface ContextProps extends DataUsers {
   handleLogout(e: any): void;
   handleInputChange(e: any): void;
   currentUser: DataUsers;
-  companies: Companies;
-  units: Units;
+  companies: Array<Companies>;
+  units: Array<Units>;
   avatarName: string;
   assets: Array<Assets>;
-  assetsUnit1: any;
+  assetsUnit1: Array<Assets>;
   assetsUnit2: any;
-  dataTable: any;
   assetsUnitCurrent: any;
+  usersUnit1: any;
+  usersUnit2: any;
 }
