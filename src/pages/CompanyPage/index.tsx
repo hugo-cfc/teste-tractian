@@ -4,7 +4,7 @@ import history from "../../history";
 
 import { AuthCreateContext } from "../../Context/AuthContext";
 
-import { Units } from "../../interfaces";
+import { Units } from "../../utils/interfaces";
 
 import Header from "../../components/Header";
 import CardUnit from "./components/CardUnit";

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Row, Col, } from "antd";
+import { Row, Col, Divider } from "antd";
 
 export const Container = styled.main`
   height: 100vh;
@@ -16,13 +16,16 @@ export const ContainerInside = styled(Row)`
   border: 1px solid #dddfe0;
 `;
 
-export const ContainerCards = styled(Row)`
-  width: 100%;
-  margin: 24px;
-  padding: 24px;
-  border: 1px solid #dddfe0;
-  justify-content: center;
-  background: #fff;
+export const BoxCards = styled(Col)`
+  display: inline-block;
+  margin-left: 10px;
 `;
 
-export const BoxCards = styled(Col)``;
+export const StyledBox = styled(Col)``;
+
+export const StyledBoxGraphic = styled(Col)`
+  display: flex;
+  align-items: center;
+`;
+
+export const StyledDivider = styled(Divider)``;

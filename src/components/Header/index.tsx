@@ -4,7 +4,7 @@ import { AuthCreateContext } from "../../Context/AuthContext";
 
 import history from "../../history";
 
-import { Menu, Dropdown } from "antd";
+import { Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
 import TractianLogo from "../../assets/logoTractian.webp";

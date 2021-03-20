@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 
-import { DataUsers, Units, Assets, ContextProps } from "../interfaces";
+import { DataUsers, Units, Assets, ContextProps } from "../utils/interfaces";
 
 import api from "../services/api";
 import history from "../history";
@@ -47,7 +47,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   function getAssets() {
-    assets.map((item: Assets) => {
+    assets.map((item: Assets, i) => {
       if (item.unitId === 1) {
         assetsUnit1.push(item);
       }
@@ -87,7 +87,7 @@ const AuthProvider: React.FC = ({ children }) => {
     (async () => {
       const { data } = await api.get(`units/${currentUser?.unitId}`);
 
-      currentUser.unityName = data.name;
+      currentUser.unitName = data.name;
     })();
 
     (async () => {
