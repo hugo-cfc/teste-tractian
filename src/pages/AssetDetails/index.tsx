@@ -28,11 +28,11 @@ function AssetDetails() {
     (async () => {
       const { data } = await api.get(`assets/${id}`);
 
+      console.log({data})
       setCurrentAsset({ ...data, unitName: currentUser?.unitName, companyName: currentUser?.companyName });
 
-      console.log(currentAsset.sensor);
     })();
-  }, [currentAsset.sensor, currentUser?.companyName, currentUser?.unitName, id]);
+  }, [id]);
 
   function iconSelector(status: string | undefined) {
     switch (status) {
@@ -88,8 +88,8 @@ function AssetDetails() {
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Sensor:</StyledTh>
-                  {currentAsset?.sensor.map((item: string) => {
-                    return <StyledTd>{item}</StyledTd>;
+                  {currentAsset.sensor.map((sensor: string) => {
+                    return <StyledTd>{sensor}</StyledTd>;
                   })}
                 </StyledTr>
                 <StyledTr>
@@ -111,11 +111,11 @@ function AssetDetails() {
               <StyledTable>
                 <StyledTr>
                   <StyledTh>Temperatura Máxima:</StyledTh>
-                  <StyledTd>{currentAsset?.specification?.maxTemp}</StyledTd>
+                  <StyledTd>{currentAsset?.specification?.maxTemp} ºC</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Potência:</StyledTh>
-                  <StyledTd>{currentAsset?.specification?.power}</StyledTd>
+                  <StyledTd>{currentAsset?.specification?.power} kWh</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>RPM:</StyledTh>
