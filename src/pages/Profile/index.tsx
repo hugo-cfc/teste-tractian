@@ -34,9 +34,9 @@ export default function Profile() {
               </NameProfile>
             </StyledCol>
             <StyledCol span={5}>
-            <NameProfile>
+              <NameProfile>
                 <DeploymentUnitOutlined />
-                <SpanDetails>{currentUser?.unityName}</SpanDetails>
+                <SpanDetails>{currentUser?.unitName}</SpanDetails>
               </NameProfile>
             </StyledCol>
             <StyledCol span={5}>

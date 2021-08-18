@@ -5,7 +5,7 @@ export interface DataUsers {
   unitId?: number;
   companyId?: number;
   companyName?: string;
-  unityName?: string;
+  unitName?: string;
 }
 
 export interface Companies {
@@ -31,7 +31,7 @@ export interface EspecificationsAssets {
 
 export interface Assets {
   id?: number;
-  sensor?: any[];
+  sensor: string[];
   status?: string;
   healthscore?: number;
   model?: string;
@@ -41,7 +41,7 @@ export interface Assets {
   specification?: EspecificationsAssets;
   unitId?: number;
   companyId?: number;
-  unityName?: string;
+  unitName?: string;
   companyName?: string;
 }
 

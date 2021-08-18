@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Row, Col, } from "antd";
+import { Row, Col } from "antd";
 
 interface ColumnProps {
   justifyCenter?: boolean;
@@ -31,6 +31,9 @@ export const StyledColumn = styled(Col)`
 
 export const StyledImg = styled.img`
   width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
 `;
 
 export const StyledTable = styled.table`
@@ -39,7 +42,12 @@ export const StyledTable = styled.table`
 
 export const StyledTr = styled.tr`
   &:nth-child(odd) {
-    background: #49759F;
+    background: #b0bac3;
+    color: #fff;
+  }
+  &:hover {
+    background: #49759f;
+    color: #fff;
   }
 `;
 

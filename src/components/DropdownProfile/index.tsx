@@ -41,7 +41,7 @@ export default function DropdownProfile(props: Props) {
           <StyledRow>
             <StyledCol>
               <DeploymentUnitOutlined />
-              {currentUser?.unityName}
+              {currentUser?.unitName}
             </StyledCol>
           </StyledRow>
         </MenuContainer.Item>

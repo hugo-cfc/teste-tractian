@@ -6,7 +6,7 @@ import { AuthCreateContext } from "../../Context/AuthContext";
 
 import api from "../../services/api";
 
-import { Assets } from "../../interfaces";
+import { Assets } from "../../utils/interfaces";
 
 import { AiTwotoneAlert, AiOutlinePoweroff } from "react-icons/ai";
 import { BsLightningFill } from "react-icons/bs";
@@ -22,19 +22,17 @@ interface ParamTypes {
 function AssetDetails() {
   const { currentUser } = useContext(AuthCreateContext);
   const { id } = useParams<ParamTypes>();
-  const [currentAsset, setCurrentAsset] = useState<Assets>({});
-  currentAsset.unityName = currentUser?.unityName;
-  currentAsset.companyName = currentUser?.companyName;
+  const [currentAsset, setCurrentAsset] = useState<Assets>({ sensor: [] });
 
   useEffect(() => {
     (async () => {
       const { data } = await api.get(`assets/${id}`);
 
-      setCurrentAsset(data);
-    })();
-  }, [id]);
+      setCurrentAsset({ ...data, unitName: currentUser?.unitName, companyName: currentUser?.companyName });
 
-  console.log(currentAsset.sensor);
+      console.log(currentAsset.sensor);
+    })();
+  }, [currentAsset.sensor, currentUser?.companyName, currentUser?.unitName, id]);
 
   function iconSelector(status: string | undefined) {
     switch (status) {
@@ -70,31 +68,33 @@ function AssetDetails() {
         <ContainerInside>
           <StyledRow>
             <StyledColumn span={24}>
-              <Title>{currentAsset.name}</Title>
+              <Title>{currentAsset?.name}</Title>
             </StyledColumn>
           </StyledRow>
           <StyledRow>
             <StyledColumn>
-              <StyledImg src={currentAsset.image} />
+              <StyledImg src={currentAsset?.image} alt={currentAsset?.name} />
             </StyledColumn>
             <StyledColumn offset={1} span={4}>
               <Title>Detalhes</Title>
               <StyledTable>
                 <StyledTr>
                   <StyledTh>Empresa:</StyledTh>
-                  <StyledTd>{currentAsset.companyName}</StyledTd>
+                  <StyledTd>{currentAsset?.companyName}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Unidade:</StyledTh>
-                  <StyledTd>{currentAsset.unityName}</StyledTd>
+                  <StyledTd>{currentAsset?.unitName}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Sensor:</StyledTh>
-                  <StyledTd>{currentAsset.sensor}</StyledTd>
+                  {currentAsset?.sensor.map((item: string) => {
+                    return <StyledTd>{item}</StyledTd>;
+                  })}
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Modelo:</StyledTh>
-                  <StyledTd>{currentAsset.model}</StyledTd>
+                  <StyledTd>{currentAsset?.model}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Status:</StyledTh>
@@ -102,7 +102,7 @@ function AssetDetails() {
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Saúde:</StyledTh>
-                  <StyledTd>{currentAsset.healthscore}%</StyledTd>
+                  <StyledTd>{currentAsset?.healthscore}%</StyledTd>
                 </StyledTr>
               </StyledTable>
             </StyledColumn>
@@ -111,15 +111,15 @@ function AssetDetails() {
               <StyledTable>
                 <StyledTr>
                   <StyledTh>Temperatura Máxima:</StyledTh>
-                  <StyledTd>{currentAsset.specification?.maxTemp}</StyledTd>
+                  <StyledTd>{currentAsset?.specification?.maxTemp}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Potência:</StyledTh>
-                  <StyledTd>{currentAsset.specification?.power}</StyledTd>
+                  <StyledTd>{currentAsset?.specification?.power}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>RPM:</StyledTh>
-                  <StyledTd>{currentAsset.specification?.rpm}</StyledTd>
+                  <StyledTd>{currentAsset?.specification?.rpm}</StyledTd>
                 </StyledTr>
               </StyledTable>
             </StyledColumn>
@@ -128,15 +128,15 @@ function AssetDetails() {
               <StyledTable>
                 <StyledTr>
                   <StyledTh>Total de coletas:</StyledTh>
-                  <StyledTd>{currentAsset.metrics?.totalCollectsUptime}</StyledTd>
+                  <StyledTd>{currentAsset?.metrics?.totalCollectsUptime}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Total de horas de coletas:</StyledTh>
-                  <StyledTd>{currentAsset.metrics?.totalUptime}</StyledTd>
+                  <StyledTd>{currentAsset?.metrics?.totalUptime}</StyledTd>
                 </StyledTr>
                 <StyledTr>
                   <StyledTh>Última coleta:</StyledTh>
-                  <StyledTd>{currentAsset.metrics?.lastUptimeAt?.replace(regexData, "$4/$3/$2")}</StyledTd>
+                  <StyledTd>{currentAsset?.metrics?.lastUptimeAt?.replace(regexData, "$4/$3/$2")}</StyledTd>
                 </StyledTr>
               </StyledTable>
             </StyledColumn>

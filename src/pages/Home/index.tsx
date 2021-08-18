@@ -4,17 +4,18 @@ import { AuthCreateContext } from "../../Context/AuthContext";
 
 import history from "../../history";
 
-import { Assets } from "../../interfaces";
+import { Assets } from "../../utils/interfaces";
 
 import HighchartsReact from "highcharts-react-official";
 
 import { AiTwotoneAlert, AiOutlinePoweroff } from "react-icons/ai";
 import { BsLightningFill } from "react-icons/bs";
+import { DeploymentUnitOutlined } from "@ant-design/icons";
 
 import Header from "../../components/Header";
 import CardAsset from "./components/CardAsset";
 
-import { Container, ContainerInside, BoxCards, Saudation, ContainerCards } from "./style";
+import { Container, ContainerInside, BoxCards, Saudation, StyledDivider, StyledBox, StyledBoxGraphic } from "./style";
 
 function Home() {
   const { assetsUnit1, assetsUnit2, currentUser } = useContext(AuthCreateContext);
@@ -27,15 +28,14 @@ function Home() {
   useEffect(() => {
     assetsUnitCurrent.map((item: Assets) => {
       if (item.status === "inAlert") {
-          return setInAlert(prevState => prevState + 1);
-      }else if (item.status === "inOperation") {
-        return setInOperation(prevState => prevState + 1);
-      }else if (item.status === "inDowntime") {
-        return setInDowntime(prevState => prevState + 1);
-      }else {
-        return setUnknown(prevState => prevState + 1);
+        return setInAlert((prevState) => prevState + 1);
+      } else if (item.status === "inOperation") {
+        return setInOperation((prevState) => prevState + 1);
+      } else if (item.status === "inDowntime") {
+        return setInDowntime((prevState) => prevState + 1);
+      } else {
+        return setUnknown((prevState) => prevState + 1);
       }
-      
     });
   }, [assetsUnitCurrent]);
 
@@ -56,28 +56,28 @@ function Home() {
             y: inOperation,
             sliced: true,
             selected: true,
-            color: 'green',
+            color: "green",
           },
 
           {
             name: "Em Alerta",
             y: inAlert,
             sliced: true,
-            color: 'orange',
+            color: "orange",
           },
 
           {
             name: "Em Parada",
             y: inDowntime,
             sliced: true,
-            color: 'red',
+            color: "red",
           },
 
           {
             name: "Desconhecido",
             y: unknown,
             sliced: true,
-            color: 'black',
+            color: "black",
           },
         ],
       },
@@ -118,11 +118,15 @@ function Home() {
       <Header />
       <ContainerInside>
         <Saudation>Olá, {currentUser?.name}! Escolha um ativo de sua unidade abaixo: </Saudation>
-        <ContainerCards>
+        <StyledDivider orientation="left">
+          <DeploymentUnitOutlined style={{ marginRight: "10px" }} />
+          Ativos
+        </StyledDivider>
+        <StyledBox span={16}>
           {assetsUnitCurrent.map((item: Assets) => {
             return (
               <>
-                <BoxCards key={item.id} span={5} onClick={() => handleClickCard(item.id)}>
+                <BoxCards key={item.id} span={10} onClick={() => handleClickCard(item.id)}>
                   <CardAsset titleMeta={item.name} cover={<img alt={item.name} src={item.image} style={{ height: "230px" }} />}>
                     Status: {iconSelector(item.status)}
                   </CardAsset>
@@ -130,8 +134,10 @@ function Home() {
               </>
             );
           })}
+        </StyledBox>
+        <StyledBoxGraphic span={7}>
           <HighchartsReact options={config}></HighchartsReact>
-        </ContainerCards>
+        </StyledBoxGraphic>
       </ContainerInside>
     </Container>
   );
